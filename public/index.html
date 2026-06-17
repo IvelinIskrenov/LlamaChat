@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LlamaChat</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <section class="chat-card">
+      <header class="header">
+        <div>
+          <h1>LlamaChat</h1>
+          <p>Minimal local AI chat powered by Ollama</p>
+        </div>
+        <span id="status" class="status">Checking...</span>
+      </header>
+
+      <div id="chat" class="chat">
+        <div class="message bot">
+          <strong>LlamaChat</strong>
+          <p>Ask me something. Make sure Ollama is running locally.</p>
+        </div>
+      </div>
+
+      <form id="chatForm" class="form">
+        <textarea id="messageInput" placeholder="Type your question..." rows="2"></textarea>
+        <button type="submit">Send</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
