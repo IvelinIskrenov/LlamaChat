@@ -13,14 +13,14 @@
           <div class="brand-mark">AI</div>
           <div>
             <h1>Ollama Chat</h1>
-            <p>Локален LLM чат</p>
+            <p>Local LLM chat</p>
           </div>
         </div>
 
-        <button id="newChatBtn" class="secondary-button">Нов чат / Изчисти история</button>
+        <button id="newChatBtn" class="secondary-button">New chat / Delete history</button>
 
         <div class="sidebar-section">
-          <h2>История</h2>
+          <h2>History</h2>
           <div id="historyList" class="history-list"></div>
         </div>
       </aside>
@@ -28,11 +28,11 @@
       <main class="chat-area">
         <header class="topbar">
           <div>
-            <h2>Минималистичен ChatGPT-like интерфейс</h2>
-            <p id="statusText">Проверявам връзката с Ollama...</p>
+            <h2>Simple Ollama chat</h2>
+            <p id="statusText">Ollama connection check ...</p>
           </div>
           <div class="model-box">
-            <label for="modelInput">Модел</label>
+            <label for="modelInput">Model</label>
             <input id="modelInput" type="text" placeholder="llama3.2" />
           </div>
         </header>
@@ -40,8 +40,8 @@
         <section id="messages" class="messages" aria-live="polite">
           <div class="empty-state">
             <div class="empty-icon">✦</div>
-            <h3>Задай въпрос към локалния LLM</h3>
-            <p>Отговорите и въпросите се пазят локално в <code>data/chat_history.json</code>.</p>
+            <h3>Ask a question</h3>
+            <p>answers -> local save<code>data/chat_history.json</code>.</p>
           </div>
         </section>
 
@@ -49,9 +49,9 @@
           <textarea
             id="messageInput"
             rows="1"
-            placeholder="Напиши въпрос... Enter = изпрати, Shift + Enter = нов ред"
+            placeholder="Ask me..."
           ></textarea>
-          <button id="sendBtn" type="submit">Изпрати</button>
+          <button id="sendBtn" type="submit">Send</button>
         </form>
       </main>
     </div>

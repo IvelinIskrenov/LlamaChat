@@ -20,6 +20,11 @@ app.use(cors());
 app.use(express.json({ limit: '1mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+/**
+ * Summary:
+ * Ensures that the data directory and chat history file exist.
+ * If they do not exist, the function creates them automatically.
+ */
 function ensureHistoryFile() {
   if (!fs.existsSync(DATA_DIR)) {
     fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -30,6 +35,11 @@ function ensureHistoryFile() {
   }
 }
 
+/**
+ * Summary:
+ * Reads the saved chat history from the local JSON file.
+ * If the file is missing, invalid, or unreadable, it safely returns an empty array.
+ */
 function readHistory() {
   ensureHistoryFile();
 
@@ -43,11 +53,21 @@ function readHistory() {
   }
 }
 
+/**
+ * Summary:
+ * Writes the current chat history into the local JSON file.
+ * The history is stored in a readable formatted JSON structure.
+ */
 function writeHistory(history) {
   ensureHistoryFile();
   fs.writeFileSync(HISTORY_FILE, JSON.stringify(history, null, 2), 'utf8');
 }
 
+/**
+ * Summary:
+ * Builds the message context that will be sent to Ollama.
+ * It includes the system prompt, recent chat history, and the new user question.
+ */
 function buildMessages(history, newQuestion) {
   const recentHistory = history.slice(-CONTEXT_PAIRS);
   const messages = [{ role: 'system', content: SYSTEM_PROMPT }];
@@ -61,6 +81,11 @@ function buildMessages(history, newQuestion) {
   return messages;
 }
 
+/**
+ * Summary:
+ * Sends a fetch request with a timeout limit.
+ * If the request takes too long, it is automatically aborted.
+ */
 async function fetchWithTimeout(url, options = {}, timeoutMs = 120000) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
@@ -72,6 +97,11 @@ async function fetchWithTimeout(url, options = {}, timeoutMs = 120000) {
   }
 }
 
+/**
+ * Summary:
+ * Returns the frontend configuration values.
+ * This allows the client to know the default model, Ollama URL, and context size.
+ */
 app.get('/api/config', (_req, res) => {
   res.json({
     defaultModel: DEFAULT_MODEL,
@@ -80,6 +110,11 @@ app.get('/api/config', (_req, res) => {
   });
 });
 
+/**
+ * Summary:
+ * Checks whether the backend is running and whether Ollama is reachable.
+ * It is used by the frontend to show the current app and Ollama connection status.
+ */
 app.get('/api/health', async (_req, res) => {
   try {
     const response = await fetchWithTimeout(`${OLLAMA_BASE_URL}/tags`, {}, 2500);
@@ -98,15 +133,30 @@ app.get('/api/health', async (_req, res) => {
   }
 });
 
+/**
+ * Summary:
+ * Returns all saved chat history entries.
+ * The frontend uses this endpoint to render the sidebar and previous conversations.
+ */
 app.get('/api/history', (_req, res) => {
   res.json(readHistory());
 });
 
+/**
+ * Summary:
+ * Deletes all saved chat history.
+ * It resets the local history file to an empty array.
+ */
 app.delete('/api/history', (_req, res) => {
   writeHistory([]);
   res.json({ ok: true });
 });
 
+/**
+ * Summary:
+ * Receives a user message, sends it to Ollama, and returns the AI response.
+ * The new question and answer are also saved into the local chat history file.
+ */
 app.post('/api/chat', async (req, res) => {
   const message = String(req.body?.message || '').trim();
   const model = String(req.body?.model || DEFAULT_MODEL).trim() || DEFAULT_MODEL;
@@ -161,10 +211,20 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
+/**
+ * Summary:
+ * Handles all unknown routes by returning the main frontend HTML file.
+ * This keeps the app working even if the user refreshes the page from another route.
+ */
 app.get('*', (_req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+/**
+ * Summary:
+ * Starts the Express server on the configured port.
+ * It also ensures the chat history file exists before the app begins handling requests.
+ */
 app.listen(PORT, () => {
   ensureHistoryFile();
   console.log(`Minimal Ollama Chat is running: http://localhost:${PORT}`);

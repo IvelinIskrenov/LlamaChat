@@ -10,13 +10,11 @@ This version is intentionally simple but functional:
 - Express backend
 - Ollama API connection
 - `.env` configuration
-- No persistent history yet
 
 ## Requirements
 
 - Node.js 18+
 - Ollama installed and running
-- A local Ollama model, for example:
 
 ```bash
 ollama run llama3.2:3b
@@ -26,7 +24,6 @@ ollama run llama3.2:3b
 
 ```bash
 npm install
-cp .env.example .env
 npm run dev
 ```
 
