@@ -1,36 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LlamaChat</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <main class="app">
-    <section class="chat-card">
-      <header class="header">
-        <div>
-          <h1>LlamaChat</h1>
-          <p>Minimal local AI chat powered by Ollama</p>
+<!doctype html>
+<html lang="bg">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minimal Ollama Chat</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">AI</div>
+          <div>
+            <h1>Ollama Chat</h1>
+            <p>Локален LLM чат</p>
+          </div>
         </div>
-        <span id="status" class="status">Checking...</span>
-      </header>
 
-      <div id="chat" class="chat">
-        <div class="message bot">
-          <strong>LlamaChat</strong>
-          <p>Ask me something. Make sure Ollama is running locally.</p>
+        <button id="newChatBtn" class="secondary-button">Нов чат / Изчисти история</button>
+
+        <div class="sidebar-section">
+          <h2>История</h2>
+          <div id="historyList" class="history-list"></div>
         </div>
-      </div>
+      </aside>
 
-      <form id="chatForm" class="form">
-        <textarea id="messageInput" placeholder="Type your question..." rows="2"></textarea>
-        <button type="submit">Send</button>
-      </form>
-    </section>
-  </main>
+      <main class="chat-area">
+        <header class="topbar">
+          <div>
+            <h2>Минималистичен ChatGPT-like интерфейс</h2>
+            <p id="statusText">Проверявам връзката с Ollama...</p>
+          </div>
+          <div class="model-box">
+            <label for="modelInput">Модел</label>
+            <input id="modelInput" type="text" placeholder="llama3.2" />
+          </div>
+        </header>
 
-  <script src="app.js"></script>
-</body>
+        <section id="messages" class="messages" aria-live="polite">
+          <div class="empty-state">
+            <div class="empty-icon">✦</div>
+            <h3>Задай въпрос към локалния LLM</h3>
+            <p>Отговорите и въпросите се пазят локално в <code>data/chat_history.json</code>.</p>
+          </div>
+        </section>
+
+        <form id="chatForm" class="composer">
+          <textarea
+            id="messageInput"
+            rows="1"
+            placeholder="Напиши въпрос... Enter = изпрати, Shift + Enter = нов ред"
+          ></textarea>
+          <button id="sendBtn" type="submit">Изпрати</button>
+        </form>
+      </main>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
 </html>

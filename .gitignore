@@ -1,3 +1,4 @@
-node_modules/
+node_modules
 .env
+data/chat_history.json
 .DS_Store
