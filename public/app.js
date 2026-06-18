@@ -54,7 +54,7 @@ function createMessage(role, content, createdAt) {
 
   const avatar = document.createElement('div');
   avatar.className = 'avatar';
-  avatar.textContent = role === 'user' ? 'Ти' : 'AI';
+  avatar.textContent = role === 'user' ? 'You' : 'AI';
 
   const bubble = document.createElement('div');
   bubble.className = 'bubble';
@@ -205,7 +205,7 @@ async function checkHealth() {
   const health = await fetchJson('/api/health');
 
   if (health.ollama === 'ok') {
-    statusText.textContent = `Backend: OK · Ollama: OK · Model: ${health.model}`;
+    statusText.textContent = `Backend: OK · Ollama: OK · Model based on llama3.2:3b: ${health.model}`;
     statusText.className = 'status-ok';
   } else {
     statusText.textContent = 'Backend: OK · Ollama not started yet.';
